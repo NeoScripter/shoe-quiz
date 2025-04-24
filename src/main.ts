@@ -6,6 +6,7 @@ import { accessDomElement } from './utils/accessDomElement';
 import { accessDomElements } from './utils/accessDomElements';
 import { appendChildren } from './utils/appendChildren';
 import { buildElement } from './utils/buildElement';
+import Typewriter from './utils/typewriter';
 
 type currentAnswer = number | null;
 
@@ -58,13 +59,23 @@ export class QuizHandler {
                 card
             );
 
+            const typewriter = new Typewriter(answerCard, {
+                loop: false,
+                typingSpeed: 20,
+                deletingSpeed: 0,
+            });
+
             buttons.forEach((button, btnIndex) =>
                 button.addEventListener('click', () => {
                     const answer = button.textContent;
 
                     if (answer == null) return;
 
-                    answerCard.textContent = this.answerDescriptions[answer];
+                    const content = this.answerDescriptions[answer];
+                    
+                    typewriter.clearOut();
+                    typewriter.typeString(content).start();
+
                     this.selectAnswer(btnIndex + 1, cardIndex);
                     this.deselectAnswers('.quiz__answer button', card);
                     this.selectBtnAnswer(button);

@@ -89,8 +89,10 @@ export class QuizHandler {
     private renderQuestions() {
         this.quizElement.innerHTML = '';
 
+        const animationClasses = ['right-animation', 'right-animation', 'left-animation', 'left-animation'];
+
         this.questions.forEach((question) => {
-            const wrapper = buildElement('div', 'quiz__card-wrapper');
+            const wrapper = buildElement('div', `quiz__card-wrapper ${animationClasses.pop()}`);
             const currentQuestionId = question.id.toString();
             wrapper.dataset.questionId = currentQuestionId;
 
@@ -134,6 +136,7 @@ export class QuizHandler {
 
         container.innerHTML = '';
 
+      
         enrichedSegments.forEach((segment) => {
             const li = buildElement('li', '', segment.name);
             container.appendChild(li);
@@ -208,8 +211,10 @@ export class QuizHandler {
         }
 
         container.innerHTML = "";
+
+        const animationClasses = ['right-animation', 'left-animation', 'right-animation', 'left-animation'];
         segmentIndices.forEach(index => {
-            this.createRefCard(enrichedSegments[index], container);
+            this.createRefCard(enrichedSegments[index], container, animationClasses.pop() || '');
         })
 
         if (segmentIndices.length < 4) {
@@ -222,13 +227,13 @@ export class QuizHandler {
                     shoes: [],
                 };
 
-                this.createRefCard(emptyCard, container);
+                this.createRefCard(emptyCard, container, animationClasses.pop() || '');
             })
         }
     }
 
-    private createRefCard(segment: SegmentObject, container: HTMLDivElement): void {
-        const ref = buildElement('div', 'ref');
+    private createRefCard(segment: SegmentObject, container: HTMLDivElement, animationClass: string): void {
+        const ref = buildElement('div', `ref ${animationClass}`);
         const title = buildElement('p', 'ref__title', segment.name);
         const description = buildElement(
             'p',

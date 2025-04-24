@@ -215,6 +215,7 @@ a {
     width: 28rem;
     margin-inline: auto;
     font-weight: 700;
+    background-color: white;
 }
 
 .ref__title {
@@ -240,4 +241,43 @@ a {
 .ref__list li {
     list-style: disc inside;
     text-align: left;
+}
+
+@media (not (prefers-reduced-motion: reduce)) {
+    .left-animation {
+        animation: left-slide 1000ms ease-in-out;
+    }
+    .right-animation {
+        animation: right-slide 1000ms ease-in-out;
+    }
+    .bottom-animation {
+        animation: from-bottom 1000ms ease-in-out;
+    }
+}
+
+@keyframes left-slide {
+    0% {
+        transform: translateX(-100%);
+    }
+    100% {
+        transform: translateX(0%);
+    }
+}
+
+@keyframes right-slide {
+    0% {
+        transform: translateX(100%);
+    }
+    100% {
+        transform: translateX(0%);
+    }
+}
+
+@keyframes from-bottom {
+    0% {
+        transform: translateY(100%);
+    }
+    100% {
+        transform: translateY(0%);
+    }
 }

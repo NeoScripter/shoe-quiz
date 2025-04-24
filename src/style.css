@@ -1,0 +1,146 @@
+*,
+::after,
+::before {
+    box-sizing: border-box;
+}
+*,
+ul {
+    margin: 0;
+    padding: 0;
+}
+html,
+body {
+    overflow-x: clip;
+}
+body {
+    line-height: 1.5;
+    -webkit-font-smoothing: antialiased;
+    font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
+}
+canvas,
+img,
+picture,
+svg,
+video {
+    display: block;
+    max-width: 100%;
+}
+button,
+input,
+select,
+textarea {
+    font: inherit;
+}
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p {
+    overflow-wrap: break-word;
+}
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    text-align: balance;
+}
+li {
+    list-style: none;
+    color: inherit;
+    font-size: inherit;
+}
+p,
+li,
+figcaption {
+    max-width: 85ch;
+    text-wrap: pretty;
+}
+a {
+    text-decoration: none;
+    color: inherit;
+    font-size: inherit;
+}
+
+.quiz-wrapper {
+    margin-inline: auto;
+    max-width: 90rem;
+    min-height: 100vh;
+    align-content: center;
+}
+
+.quiz {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    justify-content: space-between;
+    gap: 1rem;
+}
+
+.quiz__card {
+    border: 2px solid black;
+    padding: 1rem;
+    box-shadow: 0.4rem 0.4rem 0 black;
+    min-height: 15rem;
+    max-width: 16rem;
+    margin-inline: auto;
+}
+
+.quiz__question {
+    text-transform: uppercase;
+    text-align: center;
+    text-wrap: balance;
+    font-weight: bold;
+    font-size: 1rem;
+    margin-bottom: 1rem;
+    min-height: 5em;
+}
+
+.quiz__answers {
+    display: grid;
+    gap: 0.75rem;
+}
+
+.quiz__answer button {
+    border: 1px solid black;
+    box-shadow: 0.3rem 0.3rem 0 black;
+    text-align: center;
+    font-weight: bold;
+    width: 100%;
+    cursor: pointer;
+    background-color: #f8b748;
+    transition: background-color 0.25s ease-in;
+}
+
+.quiz__answer button:hover {
+    background-color: #e69f25;
+}
+
+.quiz__answer button.selected {
+    background-color: #79ffc0;
+}
+
+.wrong-answer {
+    background-color: #c15540;
+}
+
+.arrow-wrapper {
+    width: 4rem;
+    margin-inline: auto;
+    margin-block: 1.5rem;
+}
+
+.answer__card {
+    border: 2px solid black;
+    padding: 1rem;
+    box-shadow: 0.4rem 0.4rem 0 black;
+    font-weight: 700;
+    text-wrap: balance;
+    text-align: center;
+    min-height: 13rem;
+    align-content: center;
+    max-width: 16rem;
+    margin-inline: auto;
+}

@@ -1,6 +1,6 @@
 import { answerDescriptions, Question, questions } from './data/questions';
 import { segmentMap } from './data/segmentMap';
-import { segments } from './data/segments';
+import { enrichedSegments, SegmentObject } from './data/segments';
 import './style.css';
 import { accessDomElement } from './utils/accessDomElement';
 import { accessDomElements } from './utils/accessDomElements';
@@ -72,7 +72,7 @@ export class QuizHandler {
                     if (answer == null) return;
 
                     const content = this.answerDescriptions[answer];
-                    
+
                     typewriter.clearOut();
                     typewriter.typeString(content).start();
 
@@ -134,8 +134,8 @@ export class QuizHandler {
 
         container.innerHTML = '';
 
-        segments.forEach((segment) => {
-            const li = buildElement('li', '', segment);
+        enrichedSegments.forEach((segment) => {
+            const li = buildElement('li', '', segment.name);
             container.appendChild(li);
         });
     }
@@ -185,6 +185,10 @@ export class QuizHandler {
 
         const completed = this.isCompleted();
 
+        if (completed) {
+            this.populateRefContainer(validSegments);
+        }
+
         segments.forEach((segment, idx) => {
             if (validSegments.includes(idx + 1) && completed) {
                 segment.classList.add('success');
@@ -192,6 +196,60 @@ export class QuizHandler {
                 segment.classList.add('danger');
             }
         });
+    }
+
+    private populateRefContainer(segmentIndices: number[]) {
+        const container = accessDomElement('.refs', HTMLDivElement);
+
+        try {
+            accessDomElement('.segments + .arrow-wrapper', HTMLDivElement);
+        } catch {
+            container.insertAdjacentElement('beforebegin', createArrow());
+        }
+
+        container.innerHTML = "";
+        segmentIndices.forEach(index => {
+            this.createRefCard(enrichedSegments[index], container);
+        })
+
+        if (segmentIndices.length < 4) {
+            const remaining = 4 - segmentIndices.length;
+            Array.from({ length: remaining }, (_, i) => i).forEach(_ => {
+                const emptyCard: SegmentObject = {
+                    id: 1,
+                    name: "Name of the segment",
+                    description: "Sorry, we cant recommend you any additional segment.",
+                    shoes: [],
+                };
+
+                this.createRefCard(emptyCard, container);
+            })
+        }
+    }
+
+    private createRefCard(segment: SegmentObject, container: HTMLDivElement): void {
+        const ref = buildElement('div', 'ref');
+        const title = buildElement('p', 'ref__title', segment.name);
+        const description = buildElement(
+            'p',
+            'ref__description',
+            segment.description
+        );
+        const listTitle = buildElement(
+            'p',
+            'ref__list-title',
+            'List of shoes from this segment'
+        );
+
+        const ul = buildElement('ul', 'ref__list');
+
+        segment.shoes.forEach((shoe) => {
+            const li = buildElement('li', '', shoe);
+            ul.appendChild(li);
+        });
+
+        ref.append(title, description, listTitle, ul);
+        container.appendChild(ref);
     }
 
     public init() {

@@ -67,7 +67,7 @@ a {
 .quiz-wrapper {
     margin-inline: auto;
     max-width: 90rem;
-    min-height: 100vh;
+  /*   min-height: 100vh; */
     align-content: center;
     padding-block: 2rem;
 }
@@ -194,4 +194,50 @@ a {
 
 .segments__content li.success {
     background-color: #79ffc0;
+}
+
+.refs {
+    display: grid;
+    max-width: 70rem;
+    grid-template-columns: repeat(2, 1fr);
+    margin-inline: auto;
+    gap: 2rem;
+    padding-bottom: 5rem;
+}
+
+.ref {
+    border: 2px solid black;
+    padding: 1rem;
+    box-shadow: 0.4rem 0.4rem 0 black;
+    text-wrap: balance;
+    text-align: center;
+    min-height: 24rem;
+    width: 28rem;
+    margin-inline: auto;
+    font-weight: 700;
+}
+
+.ref__title {
+    text-transform: uppercase;
+}
+
+.ref__description {
+    padding-block: 1rem;
+    border-bottom: 2px solid black;
+    text-wrap: balance;
+}
+
+.ref__list-title {
+    text-transform: uppercase;
+    margin-block: 1rem;
+}
+
+.ref__list {
+    display: grid;
+    gap: 0.3rem;
+}
+
+.ref__list li {
+    list-style: disc inside;
+    text-align: left;
 }

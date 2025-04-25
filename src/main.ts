@@ -345,9 +345,6 @@ export const answerDescriptions: Record<string, string> = {
         'Without overpronation problems, you have no specific limitations.',
 };
 
-const quiz = new QuizHandler(questions, answerDescriptions);
-quiz.init();
-
 export type SegmentObject = {
     id: number;
     name: string;
@@ -475,3 +472,8 @@ export const enrichedSegments: SegmentObject[] = [
         shoes: ['Runner Pro', 'CushionX'],
     },
 ];
+
+const quiz = new QuizHandler(questions, answerDescriptions);
+quiz.init();
+
+

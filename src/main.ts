@@ -1,11 +1,9 @@
-
 import { segmentMap } from './data/segmentMap';
 import './style.css';
 import { accessDomElement } from './utils/accessDomElement';
 import { accessDomElements } from './utils/accessDomElements';
 import { appendChildren } from './utils/appendChildren';
 import { buildElement } from './utils/buildElement';
-import Typewriter from './utils/typewriter';
 
 type currentAnswer = number | null;
 
@@ -58,12 +56,6 @@ export class QuizHandler {
                 card
             );
 
-            const typewriter = new Typewriter(answerCard, {
-                loop: false,
-                typingSpeed: 20,
-                deletingSpeed: 0,
-            });
-
             buttons.forEach((button, btnIndex) =>
                 button.addEventListener('click', () => {
                     const answer = button.textContent;
@@ -72,8 +64,13 @@ export class QuizHandler {
 
                     const content = this.answerDescriptions[answer];
 
-                    typewriter.clearOut();
-                    typewriter.typeString(content).start();
+                    answerCard.classList.add('hidden');
+                    setTimeout(() => {
+                        answerCard.textContent = content;
+                    }, 300);
+                    setTimeout(() => {
+                        answerCard.classList.remove('hidden');
+                    }, 600);
 
                     this.selectAnswer(btnIndex + 1, cardIndex);
                     this.deselectAnswers('.quiz__answer button', card);
@@ -88,10 +85,18 @@ export class QuizHandler {
     private renderQuestions() {
         this.quizElement.innerHTML = '';
 
-        const animationClasses = ['right-animation', 'right-animation', 'left-animation', 'left-animation'];
+        const animationClasses = [
+            'right-animation',
+            'right-animation',
+            'left-animation',
+            'left-animation',
+        ];
 
         this.questions.forEach((question) => {
-            const wrapper = buildElement('div', `quiz__card-wrapper ${animationClasses.pop()}`);
+            const wrapper = buildElement(
+                'div',
+                `quiz__card-wrapper ${animationClasses.pop()}`
+            );
             const currentQuestionId = question.id.toString();
             wrapper.dataset.questionId = currentQuestionId;
 
@@ -135,7 +140,6 @@ export class QuizHandler {
 
         container.innerHTML = '';
 
-      
         enrichedSegments.forEach((segment) => {
             const li = buildElement('li', '', segment.name);
             container.appendChild(li);
@@ -209,29 +213,47 @@ export class QuizHandler {
             container.insertAdjacentElement('beforebegin', createArrow());
         }
 
-        container.innerHTML = "";
+        container.innerHTML = '';
 
-        const animationClasses = ['right-animation', 'left-animation', 'right-animation', 'left-animation'];
-        segmentIndices.forEach(index => {
-            this.createRefCard(enrichedSegments[index], container, animationClasses.pop() || '');
-        })
+        const animationClasses = [
+            'right-animation',
+            'left-animation',
+            'right-animation',
+            'left-animation',
+        ];
+        segmentIndices.forEach((index) => {
+            this.createRefCard(
+                enrichedSegments[index - 1],
+                container,
+                animationClasses.pop() || ''
+            );
+        });
 
         if (segmentIndices.length < 4) {
             const remaining = 4 - segmentIndices.length;
-            Array.from({ length: remaining }, (_, i) => i).forEach(_ => {
+            Array.from({ length: remaining }, (_, i) => i).forEach((_) => {
                 const emptyCard: SegmentObject = {
                     id: 1,
-                    name: "Name of the segment",
-                    description: "Sorry, we cant recommend you any additional segment.",
+                    name: 'Name of the segment',
+                    description:
+                        'Sorry, we cant recommend you any additional segment.',
                     shoes: [],
                 };
 
-                this.createRefCard(emptyCard, container, animationClasses.pop() || '');
-            })
+                this.createRefCard(
+                    emptyCard,
+                    container,
+                    animationClasses.pop() || ''
+                );
+            });
         }
     }
 
-    private createRefCard(segment: SegmentObject, container: HTMLDivElement, animationClass: string): void {
+    private createRefCard(
+        segment: SegmentObject,
+        container: HTMLDivElement,
+        animationClass: string
+    ): void {
         const ref = buildElement('div', `ref ${animationClass}`);
         const title = buildElement('p', 'ref__title', segment.name);
         const description = buildElement(
@@ -350,12 +372,12 @@ export type SegmentObject = {
     name: string;
     description: string;
     shoes: string[];
-  };
+};
 
 export const enrichedSegments: SegmentObject[] = [
     {
         id: 1,
-        name: 'Stability',
+        name: 'Support with extra cushioning',
         description: 'Offers exceptional lightness and foot support.',
         shoes: ['Sprint Edge', 'Runner Pro', 'CushionX'],
     },
@@ -367,106 +389,106 @@ export const enrichedSegments: SegmentObject[] = [
     },
     {
         id: 3,
-        name: 'Stability with extra lightness',
+        name: 'Balance with extra cushioning',
         description: 'Recommended for daily training with great lightness.',
         shoes: ['TrailBlazer', 'Speedster', 'CushionX'],
     },
     {
         id: 4,
-        name: 'Support',
+        name: 'Bounce with extra cushioning',
         description:
             'Ideal for cushioning runners looking for balance and performance.',
         shoes: ['Runner Pro', 'GlideForm'],
     },
     {
         id: 5,
-        name: 'Support with extra cushioning',
+        name: 'Swing with extra cushioning',
         description: 'Designed for maximum stability and style.',
         shoes: ['TrailBlazer', 'AirFlow Max', 'Sprint Edge'],
     },
     {
         id: 6,
-        name: 'Support with extra lightness',
+        name: 'Speed lightness',
         description: 'Perfect for long distances with enhanced stability.',
         shoes: ['Speedster', 'CushionX'],
     },
     {
         id: 7,
-        name: 'Balance',
+        name: 'Speed illegal',
         description: 'Recommended for daily training with great grip.',
         shoes: ['AirFlow Max', 'Runner Pro'],
     },
     {
         id: 8,
-        name: 'Balance with extra cushioning',
+        name: 'Support',
         description:
             'Ideal for cushioning runners looking for balance and performance.',
         shoes: ['TrailBlazer', 'Sprint Edge'],
     },
     {
         id: 9,
-        name: 'Balance with extra lightness',
+        name: 'Stability',
         description: 'Offers exceptional cushioning and foot support.',
         shoes: ['Speedster', 'CushionX', 'GlideForm'],
     },
     {
         id: 10,
-        name: 'Swing',
+        name: 'Balance',
         description: 'Perfect for long distances with enhanced grip.',
         shoes: ['GlideForm', 'Runner Pro'],
     },
     {
         id: 11,
-        name: 'Swing with extra cushioning',
+        name: 'Bounce',
         description: 'Recommended for daily training with great comfort.',
         shoes: ['Sprint Edge', 'TrailBlazer'],
     },
     {
         id: 12,
-        name: 'Swing with extra lightness',
+        name: 'Swing',
         description: 'Offers exceptional grip and foot support.',
         shoes: ['AirFlow Max', 'CushionX'],
     },
     {
         id: 13,
-        name: 'Bounce',
+        name: 'Speed lightness bouncy',
         description: 'Perfect for long distances with enhanced lightness.',
         shoes: ['Speedster', 'GlideForm'],
     },
     {
         id: 14,
-        name: 'Bounce with extra cushioning',
+        name: 'Speed Swing',
         description:
             'Ideal for stability runners looking for balance and performance.',
         shoes: ['Sprint Edge', 'AirFlow Max', 'Runner Pro'],
     },
     {
         id: 15,
-        name: 'Bounce with extra lightness',
+        name: 'Support with extra lightness',
         description: 'Recommended for daily training with great cushioning.',
         shoes: ['TrailBlazer', 'Speedster'],
     },
     {
         id: 16,
-        name: 'Speed illegal',
+        name: 'Stability with extra lightness',
         description: 'Designed for maximum comfort and style.',
         shoes: ['CushionX', 'Runner Pro', 'Sprint Edge'],
     },
     {
         id: 17,
-        name: 'Speed Swing',
+        name: 'Balance with extra lightness',
         description: 'Perfect for long distances with enhanced comfort.',
         shoes: ['Speedster', 'AirFlow Max'],
     },
     {
         id: 18,
-        name: 'Speed lightness',
+        name: 'Bounce with extra lightness',
         description: 'Offers exceptional grip and foot support.',
         shoes: ['TrailBlazer', 'GlideForm'],
     },
     {
         id: 19,
-        name: 'Speed lightness bouncy',
+        name: 'Swing with extra lightness',
         description:
             'Ideal for grip runners looking for balance and performance.',
         shoes: ['Runner Pro', 'CushionX'],
@@ -475,5 +497,3 @@ export const enrichedSegments: SegmentObject[] = [
 
 const quiz = new QuizHandler(questions, answerDescriptions);
 quiz.init();
-
-

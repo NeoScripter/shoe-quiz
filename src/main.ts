@@ -64,13 +64,20 @@ export class QuizHandler {
 
                     const content = this.answerDescriptions[answer];
 
-                    answerCard.classList.add('hidden');
+                    let firstDelay = 0;
+
+                    if (answerCard.textContent === '') {
+                        firstDelay = 0;
+                    } else {
+                        firstDelay = 300;
+                        answerCard.classList.add('hidden');
+                    }
                     setTimeout(() => {
                         answerCard.textContent = content;
-                    }, 300);
+                    }, firstDelay);
                     setTimeout(() => {
                         answerCard.classList.remove('hidden');
-                    }, 600);
+                    }, firstDelay + 300);
 
                     this.selectAnswer(btnIndex + 1, cardIndex);
                     this.deselectAnswers('.quiz__answer button', card);
@@ -107,7 +114,7 @@ export class QuizHandler {
                 question.question
             );
             const answerList = buildElement('ul', 'quiz__answers');
-            const answerCard = buildElement('div', 'answer__card');
+            const answerCard = buildElement('div', 'answer__card hidden');
 
             question.answers.forEach((answer) => {
                 const item = buildElement('li', 'quiz__answer');
